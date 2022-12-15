@@ -26,16 +26,22 @@ namespace OnionArchitectureApp.Application.Features.Queries.GetAllProducts
                 this.productRepository = productRepository;
                 this.mapper = mapper;
             }
-
-
-            public async Task<ServiceResponse<List<ProductViewDto>>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
+            
+            public async Task<ServiceResponse<List<ProductViewDto>>> Handle(GetAllProductQuery request, CancellationToken cancellationToken)
             {
                 var products = await productRepository.GetAll();
 
                 var viewModel = mapper.Map<List<ProductViewDto>>(products);
 
+                /*var dto =  products.Select(i => new ProductViewDto() // manuel mapping
+                {
+                    Id = i.Id,
+                    Name = i.Name
+                }).ToList();*/ 
+
                 return new ServiceResponse<List<ProductViewDto>>(viewModel);
             }
+
         }
     }
 }
